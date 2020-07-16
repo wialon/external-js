@@ -1,24 +1,43 @@
-//Custom menu option
-	var options = [
-	{name:'Personal account',href:'https://my.gurtam.com/en/login'},	
-	{name:'Shop',href:'https://gurtam.com/en/hw-manufacturers'}
-];
-	function createElemLi(elem, options) {
-		var clone = elem.parentNode;
-		var elem1 = clone.cloneNode(true);
-		for (var i = 0; i < options.length; i++){
-			//var clone = elem.parentNode;
-			//var elem1 = clone.cloneNode(true);
-    		elem1.querySelector('span').innerHTML = options[i].name;
-    		elem1.querySelector('a').href = options[i].href
-    		elem1.querySelector('a').id = 'sub_dom' + options[i].name;
-    		elem.after(elem1);
-    		console.log(options[i].name);
-    		console.log(elem1);
-    	}
-    
-	}
+// Asking Wialon to run our function when everything's initialized
+loader.push(function () {
+	WebCMS.after_init_call(function () {
+		// make sure that if an error occurs, it doesn't break other scripts on the page
+		try {
+			// Your custom menu options
+			var options = [
+				{
+					name:'Personal account',
+					href:'https://my.gurtam.com/en/login'
+				},
+				{
+					name:'Shop',
+					href:'https://gurtam.com/en/hw-manufacturers'
+				}
+			];
 
-	//createElemLi(document.getElementById('sub_dom_f5acebef_2_5'), options);
+			var startNode = document.getElementById('sub_dom_f5acebef_2_5');
+			// exit early if the node is not found
+			if (!startNode) {
+				return;
+			}
+			var listItem = $(startNode).parent();
 
-document.addEventListener("DOMContentLoaded", createElemLi(document.getElementById('sub_dom_f5acebef_2_5'), options));
+			options.forEach(function(option) {
+				var newMenuItem = listItem.clone();
+
+				newMenuItem.find('span').html(option.name);
+				newMenuItem
+					.find('a')
+					.attr('href', option.href)
+					.attr('id', 'sub_dom' + option.name)
+
+				listItem.after(newMenuItem);
+
+				// console.log(option.name, newMenuItem);
+			})
+		} catch (error) {
+			// do nothing or trigger some url that notifies you of problems
+			console.log(error)
+		}
+	});
+});
