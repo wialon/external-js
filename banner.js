@@ -1,16 +1,33 @@
-//add company banner
+(function () {
+	// make sure that if an error occurs, it doesn't break other scripts on the page
+	try	{
+		var doc = document;
 
-addCompanyBanner('login_body');
+		// 1. Create <div> element
+		var div = doc.createElement('div');
+		div.id = "new_banner";
 
-function addCompanyBanner(parentNode)
-{
-    let doc = document;
-    let div = doc.createElement('div'); // 1. Create <div> element
-    div.id = "new_banner"; 
-    //Fill it with the content
-    div.innerHTML ="<a href='https://gurtam.com/en/wialon' target='_blank'><img src='http://dinacheley.com/wialon/lessons/images/1.jpg' class='img-thumbnail' style = 'display: block; margin-left: auto; margin-right: auto' alt='Logo'></a>"
-    //Define CSS style
-    div.style = "border: none;margin:100px auto;display: block; width: 100%";
+		// Fill it with the content
+		div.innerHTML ="<a href='https://gurtam.com/en/wialon' target='_blank'>" +
+			"<img src='http://dinacheley.com/wialon/lessons/images/1.jpg' " +
+			"class='img-thumbnail' " +
+			"style='display: block; margin-left: auto; margin-right: auto' " +
+			"alt='My company banner'" +
+			"></a>"
+		// Define CSS style
+		div.style = "" +
+			" position: absolute;" +
+			" top: 100%;" +
+			" text-align: center;" +
+			" margin: 100px auto;" +
+			" width: 100%";
 
-    doc.getElementById(parentNode).after(div);//to insert <div> after <div id=login_body>
-}
+		// Insert <div> in <div class=login-bg>
+		doc
+			.getElementsByClassName('login-bg')[0]
+			.insertAdjacentElement('beforeend', div);
+	} catch (error){
+		// do nothing or handle error
+		console.log(error)
+	}
+})()
